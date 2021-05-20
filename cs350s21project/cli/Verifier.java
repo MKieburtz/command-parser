@@ -37,4 +37,8 @@ public class Verifier {
     public static void verifyLongitude(String longitude) {
 
     }
+    
+    private static void throwError(String datatype, String badValue) {
+        throw new RuntimeException("Error! Invalid " + datatype + ": " + badValue);
+    }
 }
