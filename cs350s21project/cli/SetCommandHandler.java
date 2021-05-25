@@ -4,4 +4,8 @@ public class SetCommandHandler {
     public void handleSetCommand(String command) {
         
     }
+
+    private void load(String command, String[] parts) {
+
+    }
 }

@@ -1,6 +1,7 @@
 package cs350s21project.cli;
 
 import java.io.File;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -167,7 +168,7 @@ public class Verifier {
 			throwError("coordinates", coord);
 		}
 		String p = ".+\\/.+\\/.+";
-		if(Pattern.matches(p, coord)) {
+		if(!Pattern.matches(p, coord)) {
 			throwError("coordinates", coord);
 		}
 		Scanner s = new Scanner(coord);
@@ -234,6 +235,22 @@ public class Verifier {
 		}
 		if(Double.parseDouble(speed) < 0) {
 			throwError("speed", speed);
+		}
+	}
+
+	public static void verifyCommandHasNumArguments(String command, int arguments) {
+		String[] parts = command.split(" +");
+		if (parts.length != arguments) {
+			throw new RuntimeException("Command has wrong number of arguments: " + command
+					+ "\nExpected " + arguments + " got " + parts.length);
+		}
+	}
+
+	public static void verifyCommandHasAtLeastNumArguments(String command, int minArguments) {
+		String[] parts = command.split(" +");
+		if (parts.length < minArguments) {
+			throw new RuntimeException("Command doesn't have enough arguments: " + command +
+					"\nExpected at least " + minArguments + " got " + parts.length);
 		}
 	}
 
