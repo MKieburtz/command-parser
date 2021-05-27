@@ -38,5 +38,25 @@ class BombTest {
 		assertEquals(bomb.getErrorType(), Bomb.E_ErrorType.GAUSSIAN);
 		assertEquals(bomb.getErrorRange(), 10);
 	}
+	
+	@Test
+	public void NoErrorWithWind() {
+		Bomb bomb = new Bomb(200, 300, 1500, 100, Bomb.E_ErrorType.NONE, 150, 60, 25);
+		for(int i = 0;i < 100;i++) {
+			Bomb.Coordinates c = bomb.drop();
+			System.out.println(c.getX() + "\t" + c.getY());
+		}
+		System.out.println();
+	}
+	
+	@Test
+	public void UniformErrorWithWind(){
+		Bomb bomb = new Bomb(200, 300, 1500, 100, Bomb.E_ErrorType.UNIFORM, 150, 60, 25);
+		for(int i = 0;i < 100;i++) {
+			Bomb.Coordinates c = bomb.drop();
+			System.out.println(c.getX() + "\t" + c.getY());
+		}
+		System.out.println();
+	}
 
 }
