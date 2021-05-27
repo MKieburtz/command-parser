@@ -1,3 +1,5 @@
+public class BombTest {
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -49,6 +51,26 @@ class BombTest {
 		System.out.println();
 	}
 	
+  @Test
+	public void UniformErrorNoWind() {
+		Bomb bomb = new Bomb(200.00, 300.00, 1500.00, 100.00, Bomb.E_ErrorType.UNIFORM, 150.00, 0, 0);
+    for(int i = 0;i < 100;i++) {
+			Bomb.Coordinates c = bomb.drop();
+			System.out.println(c.getX() + "\t" + c.getY());
+		}
+		System.out.println();
+  }
+  
+  @Test
+	public void GaussianErrorNoWind() {
+		Bomb bomb = new Bomb(200.00, 300.00, 1500.00, 100.00, Bomb.E_ErrorType.GAUSSIAN, 150.00, 0, 0);
+    for(int i = 0;i < 100;i++) {
+			Bomb.Coordinates c = bomb.drop();
+			System.out.println(c.getX() + "\t" + c.getY());
+		}
+		System.out.println();
+  }
+  
 	@Test
 	public void UniformErrorWithWind(){
 		Bomb bomb = new Bomb(200, 300, 1500, 100, Bomb.E_ErrorType.UNIFORM, 150, 60, 25);
@@ -58,5 +80,5 @@ class BombTest {
 		}
 		System.out.println();
 	}
-
+}
 }
