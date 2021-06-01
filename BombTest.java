@@ -1,3 +1,8 @@
+// Team 6
+// Michael Kieburtz
+// Spencer Metz
+// Logan Roylance
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
