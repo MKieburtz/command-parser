@@ -1,5 +1,10 @@
 package cs350s21project.cli;
 
+import cs350s21project.controller.CommandManagers;
+import cs350s21project.controller.command.misc.CommandMiscPause;
+import cs350s21project.controller.command.misc.CommandMiscWait;
+import cs350s21project.datatype.Time;
+
 public class MiscCommandHandler {
     public void handleMiscCommand(String command) {
         String[] parts = command.split(" +");
@@ -22,10 +27,17 @@ public class MiscCommandHandler {
     }
 
     private void pause(String command) {
-
+        CommandMiscPause pauseCommand = new CommandMiscPause(CommandManagers.getInstance(), command);
+        CommandManagers.getInstance().schedule(pauseCommand);
     }
 
     private void wait(String command, String[] parts) {
+        String timeString = parts[1];
+        Verifier.verifyTime(timeString);
+        Time time = new Time(Double.parseDouble(timeString));
 
+        CommandMiscWait waitCommand = new CommandMiscWait(CommandManagers.getInstance(), command, time);
+
+        CommandManagers.getInstance().schedule(waitCommand);
     }
 }
