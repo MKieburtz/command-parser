@@ -148,8 +148,10 @@ public class DefineCommandHandler {
 
         ArrayList<AgentID> munitionIds = new ArrayList<>();
         for (int i = 5; i < parts.length; i++) {
-            Verifier.verifyID(parts[i]);
-            AgentID munitionID = new AgentID(parts[i]);
+            String part = parts[i];
+            part = part.replaceAll("\\)|\\(", "");
+            Verifier.verifyID(part);
+            AgentID munitionID = new AgentID(part);
             munitionIds.add(munitionID);
         }
         CommandActorDefineShip defineShipCommand = new CommandActorDefineShip(CommandManagers.getInstance(), command, agentID, munitionIds);
