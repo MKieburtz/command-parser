@@ -26,7 +26,7 @@ public class CommandInterpreter {
 	}
 }
 
-/*
+/* TO BE REMOVED
  * Whitespace, except in literals, does not matter. All text except identifiers
  * is case insensitive.
  * 

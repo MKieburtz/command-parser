@@ -1,6 +1,7 @@
 package cs350s21project.cli;
 
 import java.io.File;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -172,6 +173,97 @@ public class Verifier {
             throwError("latitude seconds", longitude);
         }
     }
+	
+	public static void verifyCoordinates(String coord) {
+		if(coord == null || coord.isBlank()) {
+			throwError("coordinates", coord);
+		}
+		String p = ".+\\/.+\\/.+";
+		if(!Pattern.matches(p, coord)) {
+			throwError("coordinates", coord);
+		}
+		Scanner s = new Scanner(coord);
+		s.useDelimiter("/");
+		String latitude = s.next();
+		verifyLatitude(latitude);
+		String longitude = s.next();
+		verifyLongitude(longitude);
+		String altitude = s.next();
+		verifyAltitude(altitude);
+		s.close();
+	}
+
+	public static void verifyPower(String power) {
+		if(power == null || power.isBlank()) {
+			throwError("power", power);
+		}
+		try {
+			Double.parseDouble(power);
+		} catch(NumberFormatException e) {
+			throwError("power", power);
+		}
+		if(Double.parseDouble(power) < 0) {
+			throwError("power", power);
+		}
+	}
+	
+	public static void verifySensitivity(String sens) {
+		if(sens == null || sens.isBlank()) {
+			throwError("sensitivity", sens);
+		}
+		try {
+			Double.parseDouble(sens);
+		} catch(NumberFormatException e) {
+			throwError("sensitivity", sens);
+		}
+		if(Double.parseDouble(sens) < 0) {
+			throwError("sensitivity", sens);
+		}
+	}
+	
+	public static void verifySize(String size) {
+		if(size == null || size.isBlank()) {
+			throwError("size", size);
+		}
+		try {
+			Integer.parseInt(size);
+		} catch(NumberFormatException e) {
+			throwError("size", size);
+		}
+		if(Integer.parseInt(size) < 0) {
+			throwError("size", size);
+		}
+	}
+	
+	public static void verifySpeed(String speed) {
+		if(speed == null || speed.isBlank()) {
+			throwError("speed", speed);
+		}
+		try {
+			Double.parseDouble(speed);
+		} catch(NumberFormatException e) {
+			throwError("speed", speed);
+		}
+		if(Double.parseDouble(speed) < 0) {
+			throwError("speed", speed);
+		}
+	}
+
+	public static void verifyCommandHasNumArguments(String command, int arguments) {
+		String[] parts = command.split(" +");
+		if (parts.length != arguments) {
+			throw new RuntimeException("Command has wrong number of arguments: " + command
+					+ "\nExpected " + arguments + " got " + parts.length);
+		}
+	}
+
+	public static void verifyCommandHasAtLeastNumArguments(String command, int minArguments) {
+		String[] parts = command.split(" +");
+		if (parts.length < minArguments) {
+			throw new RuntimeException("Command doesn't have enough arguments: " + command +
+					"\nExpected at least " + minArguments + " got " + parts.length);
+		}
+	}
 
     private static int getDegreesFromLatLong(String latLong) {
         int indexOfDegreesDelimiter = latLong.indexOf("*");

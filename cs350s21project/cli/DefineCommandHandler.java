@@ -23,11 +23,11 @@ public class DefineCommandHandler {
         } else if (parts[2].equalsIgnoreCase("shell")) {
 
         } else if (parts[2].equalsIgnoreCase("depth_charge") ) {
-  			    defineDepthCharge(command, parts);
+  			defineDepthCharge(command, parts);
   	    }  else if (parts[2].equalsIgnoreCase("torpedo")) {
             defineTorpedo(command, parts);
         } else if (parts[2].equalsIgnoreCase("missile")) {
-    	    	defineMissile(command, parts);
+    	    defineMissile(command, parts);
   	    }
     }
 
@@ -98,12 +98,12 @@ public class DefineCommandHandler {
     }
 
     public void defineDepth(String command, String[] parts) {
-          AgentID idSensor = new AgentID(parts[3]);
-          Altitude altitude = new Altitude(Double.parseDouble(parts[7]));
+      AgentID idSensor = new AgentID(parts[3]);
+      Altitude altitude = new Altitude(Double.parseDouble(parts[7]));
 
-          //CommandSensorDefineDepth​(CommandManagers managers, java.lang.String text, AgentID idSensor, Altitude depth)
+      //CommandSensorDefineDepth​(CommandManagers managers, java.lang.String text, AgentID idSensor, Altitude depth)
       CommandSensorDefineDepth defineDeptheCommand = new CommandSensorDefineDepth(CommandManagers.getInstance(), command, idSensor, altitude);
-          CommandManagers.getInstance().schedule(defineDeptheCommand);
+      CommandManagers.getInstance().schedule(defineDeptheCommand);
     }
 
 
@@ -113,16 +113,16 @@ public class DefineCommandHandler {
 
       //CommandSensorDefineDistance​(CommandManagers managers, java.lang.String text, AgentID idSensor, DistanceNauticalMiles distance)
       CommandSensorDefineDistance defineDistanceCommand = new CommandSensorDefineDistance(CommandManagers.getInstance(), command, idSensor, distance);
-          CommandManagers.getInstance().schedule(defineDistanceCommand);
+      CommandManagers.getInstance().schedule(defineDistanceCommand);
     }
 
     public void defineTime(String command, String[] parts) {
       AgentID idSensor = new AgentID(parts[3]);
-      double t = Double.parseDouble(parts[7]);
-      Time time = new Time(t);
+      
+      Time time = new Time(Double.parseDouble(parts[7]));
 
       //CommandSensorDefineTime​(CommandManagers managers, java.lang.String text, AgentID idSensor, Time time)
       CommandSensorDefineTime defineTimeCommand = new CommandSensorDefineTime(CommandManagers.getInstance(), command, idSensor, time));
-          CommandManagers.getInstance().schedule(defineTimeCommand);
+      CommandManagers.getInstance().schedule(defineTimeCommand);
     }
 }

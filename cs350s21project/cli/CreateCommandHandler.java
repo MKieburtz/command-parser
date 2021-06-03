@@ -15,10 +15,6 @@ public class CreateCommandHandler {
         }
     }
 
-	/*   0     1     2    3   4   5     6        7     8      9      10   11
-	 * create actor id1 from id2 at coordinates with course course speed speed
-	 * Creates an instance of actor family id2 called actor id1 at coordinates with azimuth course and speed speed.
-	 */
 	public void createActor(String command, String[] parts) {
 		String idString = parts[2]; // id1
 

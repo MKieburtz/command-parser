@@ -23,10 +23,7 @@ public class SetCommandHandler {
         }
 	}
 
-	/* 0    1       2         3
-	 * set id altitude|depth altitude
-	 */
-	public void setAltitudeDepth(String command, String[] parts) { //CommandActorSetAltitudeDepth
+	public void setAltitudeDepth(String command, String[] parts) {
 
         String idActor = parts[1]; // id1
         Verifier.verifyID(idActor);
@@ -49,10 +46,7 @@ public class SetCommandHandler {
         CommandManagers.getInstance().schedule(setAltitudeDepthCommand);
 	}
 
-	/* 0    1    2        3     4
-	 * set id1 deploy munition id2
-	 */
-	public void setDeployMunition(String command, String[] parts) { // CommandActorDeployMunition
+	public void setDeployMunition(String command, String[] parts) {
         String idActor = parts[1]; // id1
         Verifier.verifyID(idActor);
         AgentID id1 = new AgentID(idActor);
@@ -66,10 +60,7 @@ public class SetCommandHandler {
         CommandManagers.getInstance().schedule(setDeployMunitionCommand);
 	}
 
-	/*  0   1    2     3        4   5    6      7       8          9
-	 * set id1 deploy munition id2 at azimuth azimuth elevation elevation
-	 */
-	public void setDeployMunitionShell(String command, String[] parts) { // CommandActorDeployMunitionShell
+	public void setDeployMunitionShell(String command, String[] parts) {
         String idActor = parts[1]; // id1
         Verifier.verifyID(idActor);
         AgentID id1 = new AgentID(idActor);
