@@ -1,3 +1,8 @@
+// Team 6
+// Michael Kieburtz
+// Spencer Metz
+// Logan Roylance
+
 package cs350s21project.cli;
 import org.junit.jupiter.api.Test;
 
