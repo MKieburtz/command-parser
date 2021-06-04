@@ -1,23 +1,46 @@
+// Team 6
+// Michael Kieburtz
+// Spencer Metz
+// Logan Roylance
 
-public class BombTest {
-	
-	public void UniformErrorNoWind() {
-		// double releaseX, double releaseY, double releaseAltitude, double descentSpeed, E_ErrorType errorType, double errorRange, double windDirection, double windSpeed
-		Bomb bomb = new Bomb(200.00, 300.00, 1500.00, 100.00, Bomb.E_ErrorType.UNIFORM, 150.00, 0, 0);
-		for(int i = 0;i < 100;i++) {
-			Bomb.Coordinates c = bomb.drop();
-			System.out.println(c.getX() + "\t" + c.getY());
-		}
-		System.out.println();
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+class BombTest {
+
+	@Test
+	public void testWind() {
+		Bomb bomb = new Bomb(0, 0, 0, 0, null, 0, 45, 10);
+		assertEquals(45, bomb.getWindDirection());
+		assertEquals(10, bomb.getWindSpeed());
 	}
 	
-	public void GaussianErrorNoWind() {
-		// double releaseX, double releaseY, double releaseAltitude, double descentSpeed, E_ErrorType errorType, double errorRange, double windDirection, double windSpeed
-		Bomb bomb = new Bomb(200.00, 300.00, 1500.00, 100.00, Bomb.E_ErrorType.GAUSSIAN, 150.00, 0, 0);
-		for(int i = 0;i < 100;i++) {
-			Bomb.Coordinates c = bomb.drop();
-			System.out.println(c.getX() + "\t" + c.getY());
-		}
-		System.out.println();
+	@Test
+	public void testRelease() {
+		Bomb bomb = new Bomb(100, 200, 300, 10, null, 0, 0, 0);
+		assertEquals(100, bomb.getReleaseCoordinates().getX());
+		assertEquals(200, bomb.getReleaseCoordinates().getY());
+		assertEquals(300, bomb.getReleaseAltitude());
+		assertEquals(10, bomb.getDescentSpeed());
+	}
+
+	@Test
+	public void testError() {
+		//NONE error type
+		Bomb.E_ErrorType error = Bomb.E_ErrorType.NONE;
+		Bomb bomb = new Bomb(0, 0, 0, 0, error, 10, 0, 0);
+		assertEquals(Bomb.E_ErrorType.NONE, bomb.getErrorType());
+		assertEquals(10, bomb.getErrorRange());
+		//UNIFORM error type
+		error = Bomb.E_ErrorType.UNIFORM;
+		bomb = new Bomb(0, 0, 0, 0, error, 10, 0, 0);
+		assertEquals(Bomb.E_ErrorType.UNIFORM, bomb.getErrorType());
+		assertEquals(10, bomb.getErrorRange());
+		//GAUSSIAN
+		error = Bomb.E_ErrorType.GAUSSIAN;
+		bomb = new Bomb(0, 0, 0, 0, error, 10, 0, 0);
+		assertEquals(Bomb.E_ErrorType.GAUSSIAN, bomb.getErrorType());
+		assertEquals(10, bomb.getErrorRange());
 	}
 }
