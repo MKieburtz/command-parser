@@ -16,30 +16,41 @@ public class CreateCommandHandler {
     }
 
 	public void createActor(String command, String[] parts) {
+		Verifier.verifyCommandHasNumArguments(command, 11);
 		String idString = parts[2]; // id1
-
-        AgentID id1 = new AgentID(idString);
+		Verifier.verifyID(idString);
+		AgentID id1 = new AgentID(idString);
+		
         String idActor = parts[4]; // id2
-
+        Verifier.verifyID(idActor);
         AgentID id2 = new AgentID(idActor);
+        
         String pos = parts[6]; // position
-
+        
         //latitude/longitude/altitude
         String posStr[] = pos.split("/");
-
-        Latitude​ latitude​ = getLat(posStr[0]);
+        
+        Verifier.verifyLatitude(posStr[0]);
+        Latitude latitude = getLat(posStr[0]);
+        
+        Verifier.verifyLongitude(posStr[1]);
         Longitude longitude = getLong(posStr[1]);
-        Altitude alt = new Altitude(Double.parseDouble(posStr[2]));
-
-        CoordinateWorld3D position = new CoordinateWorld3D(latitude​, longitude, alt); //TODO finish this
+        
+        Verifier.verifyAltitude(posStr[2]);
+        Altitude altitude = new Altitude(Double.parseDouble(posStr[2]));
+        
+        Veifier.verifyCoordinates(pos);
+        CoordinateWorld3D position = new CoordinateWorld3D(latitude, longitude, altitude); //TODO finish this
 
         String cour = parts[9]; // course
+        Verifier.verifyCourse(cour);
 		Course course = new Course(Double.parseDouble(cour));
 
 		String gSp = parts[11]; // Speed
+		Verifier.verifySpeed(gSp);
 		Groundspeed speed = new Groundspeed(Double.parseDouble(gSp));
 
-		//CommandActorCreateActor​(CommandManagers managers, java.lang.String text, AgentID idActor, AgentID idFamily, CoordinateWorld3D position, Course course, Groundspeed speed)
+		//CommandActorCreateActor(CommandManagers managers, java.lang.String text, AgentID idActor, AgentID idFamily, CoordinateWorld3D position, Course course, Groundspeed speed)
 		CommandActorCreateActor createCommand = new CommandActorCreateActor(CommandManagers.getInstance(), command, id1, id2, position, course, speed);
         CommandManagers.getInstance().schedule(createCommand);
 	}

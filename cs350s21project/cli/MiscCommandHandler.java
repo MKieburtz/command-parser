@@ -9,13 +9,13 @@ public class MiscCommandHandler {
         if (parts[0].equalsIgnoreCase("@load")) {
 			load(command, parts);
         } else if (parts[0].equalsIgnoreCase("@pause")) {
-            pause(command);
+            
         } else if (parts[0].equalsIgnoreCase("@resume")) {
 
         } else if (parts[0].equalsIgnoreCase("@set")) {
 
         } else if (parts[0].equalsIgnoreCase("@wait")) {
-            wait(command, parts);
+            
         } else if (parts[0].equalsIgnoreCase("@force")) {
 
         } else if (parts[0].equalsIgnoreCase("@exit")) {
@@ -24,24 +24,17 @@ public class MiscCommandHandler {
     }
 
 	private void load(String command, String[] parts) {
+		Verifier.verifyCommandHasNumArguments(command, 2);
 		String filename = parts[1];
 		Verifier.verifyFilename(filename);
 
-		//CommandMiscLoad​(CommandManagers managers, java.lang.String text, java.lang.String filename)
 		CommandMiscLoad loadCommand = new CommandMiscLoad(CommandManagers.getInstance(), command, filename);
 		CommandManagers.getInstance().schedule(loadCommand);
 	}
 
 	private void exit(String command) {
+		Verifier.verifyCommandHasNumArguments(command, 1);
 		CommandMiscExit exitCommand = new CommandMiscExit(CommandManagers.getInstance(), command);
 		CommandManagers.getInstance().schedule(exitCommand);
 	}
-
-    private void pause(String command) {
-
-    }
-
-    private void wait(String command, String[] parts) {
-
-    }
 }

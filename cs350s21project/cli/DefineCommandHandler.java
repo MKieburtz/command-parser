@@ -37,33 +37,39 @@ public class DefineCommandHandler {
 
     public void defineDepthCharge(String command, String[] parts) {
       String idDC = parts[3]; // id1
-          AgentID idMunition = new AgentID(idDC);
+      Verifier.verifyID(idDC);
+      AgentID idMunition = new AgentID(idDC);
 
-          String idF = parts[6]; // id2
-          AgentID idFuze = new AgentID(idF);
+      String idF = parts[6]; // id2
+      Verifier.verifyID(idF);
+      AgentID idFuze = new AgentID(idF);
 
-      //CommandMunitionDefineDepthCharge​(CommandManagers managers, java.lang.String text, AgentID idMunition, AgentID idFuze)
+      //CommandMunitionDefineDepthCharge(CommandManagers managers, java.lang.String text, AgentID idMunition, AgentID idFuze)
       CommandMunitionDefineDepthCharge defineDepthChargeCommand = new CommandMunitionDefineDepthCharge(CommandManagers.getInstance(), command, idMunition, idFuze);
-          CommandManagers.getInstance().schedule(defineDepthChargeCommand);
+      CommandManagers.getInstance().schedule(defineDepthChargeCommand);
     }
 
 
     public void defineMissile(String command, String[] parts) {
       String idMunition = parts[3]; // id1
-          AgentID id1 = new AgentID(idMunition);
+      Verifier.verifyID(idMunition);
+      AgentID id1 = new AgentID(idMunition);
 
-          String idSensor = parts[6]; // id2
-          AgentID id2 = new AgentID(idSensor);
+      String idSensor = parts[6]; // id2
+      Verifier.verifyID(idSensor);
+      AgentID id2 = new AgentID(idSensor);
 
-          String idFuze = parts[8]; // id3
-          AgentID id3 = new AgentID(idFuze);
+      String idFuze = parts[8]; // id3
+      Verifier.verifyID(idFuze);
+      AgentID id3 = new AgentID(idFuze);
 
-          String distance = parts[11];
-          DistanceNauticalMiles distance = new DistanceNauticalMiles​(Double.parseDouble(parts[11]));
+      String distance = parts[11];
+      Verifier.verifyDistance(distance);
+      DistanceNauticalMiles distance = new DistanceNauticalMiles(Double.parseDouble(distance));
 
-          //CommandMunitionDefineMissile​(CommandManagers managers, java.lang.String text, AgentID idMunition, AgentID idSensor, AgentID idFuze, DistanceNauticalMiles distance)
+      //CommandMunitionDefineMissile(CommandManagers managers, java.lang.String text, AgentID idMunition, AgentID idSensor, AgentID idFuze, DistanceNauticalMiles distance)
       CommandMunitionDefineMissile munitionDefineMissile = new CommandMunitionDefineMissile(CommandManagers.getInstance(), command, id1, id2, id3, distance);
-          CommandManagers.getInstance().schedule(munitionDefineMissile);
+      CommandManagers.getInstance().schedule(munitionDefineMissile);
     }
 
     private void handleDefineSensorCommand(String command, String[] parts) {
@@ -98,28 +104,42 @@ public class DefineCommandHandler {
     }
 
     public void defineDepth(String command, String[] parts) {
-      AgentID idSensor = new AgentID(parts[3]);
-      Altitude altitude = new Altitude(Double.parseDouble(parts[7]));
+    	String id1 = parts[3];
+    	Verifier.verifyID(id1);
+    	AgentID idSensor = new AgentID(id1);
+    	
+    	String altitude = parts[7];
+    	Verifier.verifyAltitude(altitude);
+    	Altitude altitude = new Altitude(Double.parseDouble(altitude));
 
-      //CommandSensorDefineDepth​(CommandManagers managers, java.lang.String text, AgentID idSensor, Altitude depth)
-      CommandSensorDefineDepth defineDeptheCommand = new CommandSensorDefineDepth(CommandManagers.getInstance(), command, idSensor, altitude);
-      CommandManagers.getInstance().schedule(defineDeptheCommand);
+    	//CommandSensorDefineDepth​(CommandManagers managers, java.lang.String text, AgentID idSensor, Altitude depth)
+    	CommandSensorDefineDepth defineDeptheCommand = new CommandSensorDefineDepth(CommandManagers.getInstance(), command, idSensor, altitude);
+    	CommandManagers.getInstance().schedule(defineDeptheCommand);
     }
 
 
     public void defineDistance(String command, String[] parts) {
-      AgentID idSensor = new AgentID(parts[3]);
-      DistanceNauticalMiles​ distance = new DistanceNauticalMiles​(Double.parseDouble(parts[7]));
+    	String id1 = parts[3];
+    	Verifier.verifyID(id1);
+    	AgentID idSensor = new AgentID(id1);
+    	
+    	String distance = parts[7];
+    	Verifier.verifyDistance(distance);
+    	DistanceNauticalMiles distance = new DistanceNauticalMiles(Double.parseDouble(distance));
 
-      //CommandSensorDefineDistance​(CommandManagers managers, java.lang.String text, AgentID idSensor, DistanceNauticalMiles distance)
-      CommandSensorDefineDistance defineDistanceCommand = new CommandSensorDefineDistance(CommandManagers.getInstance(), command, idSensor, distance);
-      CommandManagers.getInstance().schedule(defineDistanceCommand);
+    	//CommandSensorDefineDistance​(CommandManagers managers, java.lang.String text, AgentID idSensor, DistanceNauticalMiles distance)
+    	CommandSensorDefineDistance defineDistanceCommand = new CommandSensorDefineDistance(CommandManagers.getInstance(), command, idSensor, distance);
+    	CommandManagers.getInstance().schedule(defineDistanceCommand);
     }
 
     public void defineTime(String command, String[] parts) {
-      AgentID idSensor = new AgentID(parts[3]);
-      
-      Time time = new Time(Double.parseDouble(parts[7]));
+    	String idSensor = parts[3];
+    	Verifier.verifyID(idSensor);
+    	AgentID idSensor = new AgentID(idSensor);
+    	
+    	String time = parts[7];
+    	Verifier.verifyTime(time);
+    	Time time = new Time(Double.parseDouble(time));
 
       //CommandSensorDefineTime​(CommandManagers managers, java.lang.String text, AgentID idSensor, Time time)
       CommandSensorDefineTime defineTimeCommand = new CommandSensorDefineTime(CommandManagers.getInstance(), command, idSensor, time));

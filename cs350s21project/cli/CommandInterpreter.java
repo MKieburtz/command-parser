@@ -4,6 +4,8 @@ public class CommandInterpreter {
 
 	public void evaluate(String command) {
 		try {
+			//String commandCommentsArray[] = command.split(Pattern.quote("[//]"));
+			
 			String commandArray[] = command.split(";");
 			for(String i : commandArray) {
 				String commStr[] = i.split(" +");			
