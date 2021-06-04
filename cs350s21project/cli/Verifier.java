@@ -78,12 +78,23 @@ public class Verifier {
 		}
 	}
   
-  public static void verifyAltitude(String altitude) {
+	public static void verifyAltitude(String altitude) {
         // just check if this is a number
         try {
             int altitudeInt = Integer.parseInt(altitude);
         } catch (NumberFormatException ex) {
             throwError("altitude", altitude);
+        }
+    }
+	
+	public static void verifyDepth(String depth) {
+        // just check if this is a number
+        try {
+            int depthInt = Integer.parseInt(depth);
+            if(depthInt > 0) 
+            	throwError("Depth", depth);
+        } catch (NumberFormatException ex) {
+            throwError("Depth", depth);
         }
     }
 
