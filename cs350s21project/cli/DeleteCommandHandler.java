@@ -5,9 +5,7 @@ import cs350s21project.controller.command.view.CommandViewDeleteWindow;
 import cs350s21project.datatype.AgentID;
 
 public class DeleteCommandHandler {
-    public void handleDeleteCommand(String command) {
-        String[] parts = command.split(" +");
-
+    public void handleDeleteCommand(String command, String[] parts) {
         if (parts[1].equalsIgnoreCase("window")) {
             Verifier.verifyCommandHasNumArguments(command, 3);
             deleteWindow(command, parts);
