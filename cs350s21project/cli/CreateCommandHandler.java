@@ -1,5 +1,11 @@
 package cs350s21project.cli;
 
+import cs350s21project.controller.CommandManagers;
+import cs350s21project.controller.command.view.CommandViewCreateWindowTop;
+import cs350s21project.datatype.AgentID;
+import cs350s21project.datatype.Latitude;
+import cs350s21project.datatype.Longitude;
+
 public class CreateCommandHandler {
     public void handleCreateCommand(String command) {
         Verifier.verifyCommandHasAtLeastNumArguments(command, 2);
