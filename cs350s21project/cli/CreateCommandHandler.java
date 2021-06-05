@@ -11,24 +11,23 @@ import cs350s21project.controller.command.view.CommandViewCreateWindowTop;
 import cs350s21project.datatype.*;
 
 public class CreateCommandHandler {
-    public void handleCreateCommand(String command) {
-        Verifier.verifyCommandHasAtLeastNumArguments(command, 2);
-		String[] parts = command.split(" +");
+	public void handleCreateCommand(String command, String parts[]) {
 		if(parts[1].equalsIgnoreCase("window")) {
 			handleCreateWindowCommand(command, parts);
+		} else if(parts[1].equalsIgnoreCase("actor")) {
+			createActor(command, parts);
 		}
-    }
-    
+	}
+
     private void handleCreateWindowCommand(String command, String[] parts) {
 		Verifier.verifyCommandHasNumArguments(command, 13);
 		if(parts[3].equalsIgnoreCase("top")) {
 			createWindowTop(command, parts);
-		} else {
-			return;
 		}
 	}
 	
 	private void createWindowTop(String command, String[] parts) {
+		System.out.println("COMMAND " + command);
 		//id
 		Verifier.verifyID(parts[2]);
 		AgentID id = new AgentID(parts[2]);
@@ -38,89 +37,56 @@ public class CreateCommandHandler {
 		//size
 		Verifier.verifySize(parts[6]);
 		int size = Integer.parseInt(parts[6]);
+
+		//latitude1
 		if(parts[7].charAt(0) != '(') {
 			throw new RuntimeException("Error! Incorrect syntax of create window statement (missing '(' )");
 		}
-		//latitude1
-		Verifier.verifyLatitude(parts[7].substring(1));
-		String editable = parts[7].substring(1);
-		int degrees = Integer.parseInt(editable.substring(0, editable.indexOf('*')));
-		editable = editable.substring(editable.indexOf('*')+1);
-		int minutes = Integer.parseInt(editable.substring(0, editable.indexOf('\'')));
-		editable = editable.substring(editable.indexOf('\'')+1);
-		double seconds = Double.parseDouble(editable.substring(0, editable.length()-1));
-		Latitude lat1 = new Latitude(degrees, minutes, seconds);
+		String latString = parts[7].replaceAll("\\(", "");
+		Verifier.verifyLatitude(latString);
+		Latitude lat1 = getLat(latString);
+
 		//latitude2
-		Verifier.verifyLatitude(parts[8]);
-		editable = parts[8];
-		degrees = Integer.parseInt(editable.substring(0, editable.indexOf('*')));
-		editable = editable.substring(editable.indexOf('*')+1);
-		minutes = Integer.parseInt(editable.substring(0, editable.indexOf('\'')));
-		editable = editable.substring(editable.indexOf('\'')+1);
-		seconds = Double.parseDouble(editable.substring(0, editable.length()-1));
-		Latitude lat2 = new Latitude(degrees, minutes, seconds);
+		latString = parts[8];
+		Verifier.verifyLatitude(latString);
+		Latitude lat2 = getLat(latString);
+
 		//latitude3
-		Verifier.verifyLatitude(parts[9]);
-		editable = parts[9];
-		degrees = Integer.parseInt(editable.substring(0, editable.indexOf('*')));
-		editable = editable.substring(editable.indexOf('*')+1);
-		minutes = Integer.parseInt(editable.substring(0, editable.indexOf('\'')));
-		editable = editable.substring(editable.indexOf('\'')+1);
-		seconds = Double.parseDouble(editable.substring(0, editable.length()-1));
-		Latitude lat3 = new Latitude(degrees, minutes, seconds);
 		if(parts[9].indexOf(')') == -1) {
 			throw new RuntimeException("Error! Incorrect syntax of create window statement (missing ')' )");
 		}
+		latString = parts[9].replaceAll("\\)", "");
+		Verifier.verifyLatitude(latString);
+		Latitude lat3 = getLat(latString);
+
+		//longitude1
 		if(parts[10].charAt(0) != '(') {
 			throw new RuntimeException("Error! Incorrect syntax of create window statement (missing '(' )");
 		}
-		//longitude1
-		Verifier.verifyLongitude(parts[10].substring(1));
-		editable = parts[10].substring(1);
-		degrees = Integer.parseInt(editable.substring(0, editable.indexOf('*')));
-		editable = editable.substring(editable.indexOf('*')+1);
-		minutes = Integer.parseInt(editable.substring(0, editable.indexOf('\'')));
-		editable = editable.substring(editable.indexOf('\'')+1);
-		seconds = Double.parseDouble(editable.substring(0, editable.length()-1));
-		Longitude lon1 = new Longitude(degrees, minutes, seconds);
+		String longString = parts[10].replaceAll("\\(", "");
+		Verifier.verifyLongitude(longString);
+		Longitude lon1 = getLong(longString);
+
 		//longitude2
-		Verifier.verifyLongitude(parts[11]);
-		editable = parts[11];
-		degrees = Integer.parseInt(editable.substring(0, editable.indexOf('*')));
-		editable = editable.substring(editable.indexOf('*')+1);
-		minutes = Integer.parseInt(editable.substring(0, editable.indexOf('\'')));
-		editable = editable.substring(editable.indexOf('\'')+1);
-		seconds = Double.parseDouble(editable.substring(0, editable.length()-1));
-		Longitude lon2 = new Longitude(degrees, minutes, seconds);
+		longString = parts[11];
+		Verifier.verifyLongitude(longString);
+		Longitude lon2 = getLong(longString);
+
 		//longitude3
-		Verifier.verifyLongitude(parts[12]);
-		editable = parts[12];
-		degrees = Integer.parseInt(editable.substring(0, editable.indexOf('*')));
-		editable = editable.substring(editable.indexOf('*')+1);
-		minutes = Integer.parseInt(editable.substring(0, editable.indexOf('\'')));
-		editable = editable.substring(editable.indexOf('\'')+1);
-		seconds = Double.parseDouble(editable.substring(0, editable.length()-1));
-		Longitude lon3 = new Longitude(degrees, minutes, seconds);
 		if(parts[12].indexOf(')') == -1) {
 			throw new RuntimeException("Error! Incorrect syntax of create window statement (missing ')' )");
 		}
+		longString = parts[12].replaceAll("\\)", "");
+		Verifier.verifyLongitude(longString);
+		Longitude lon3 = getLong(longString);
 		
 		//create Window
 		CommandViewCreateWindowTop window = new CommandViewCreateWindowTop(CommandManagers.getInstance(), command, id, size, lat1, lat2, lat3, lon1, lon2, lon3);
 		CommandManagers.getInstance().schedule(window);
 	}
 
-	public void handleCreateCommand(String command, String parts[]) {
-
-		if(parts[1].equalsIgnoreCase("window")) {
-			// logan's code
-		} else if(parts[1].equalsIgnoreCase("actor")) {
-			createActor(command, parts);
-		}
-	}
-
 	public void createActor(String command, String[] parts) {
-		Verifier.verifyCommandHasNumArguments(command, 11);
+		Verifier.verifyCommandHasNumArguments(command, 12);
 		String idString = parts[2]; // id1
 		Verifier.verifyID(idString);
 		AgentID id1 = new AgentID(idString);
@@ -144,7 +110,7 @@ public class CreateCommandHandler {
 		Altitude altitude = new Altitude(Double.parseDouble(posStr[2]));
 
 		Verifier.verifyCoordinates(pos);
-		CoordinateWorld3D position = new CoordinateWorld3D(latitude, longitude, altitude); //TODO finish this
+		CoordinateWorld3D position = new CoordinateWorld3D(latitude, longitude, altitude);
 
 		String cour = parts[9]; // course
 		Verifier.verifyCourse(cour);
@@ -158,7 +124,7 @@ public class CreateCommandHandler {
 		CommandActorCreateActor createCommand = new CommandActorCreateActor(CommandManagers.getInstance(), command, id1, id2, position, course, speed);
 		CommandManagers.getInstance().schedule(createCommand);
 	}
-
+	// helper methods
 	private Latitude getLat(String part) {
 		int latDegree = getDegreesFromLatLong(part);
 		int latMinute = getMinutesFromLatLong(part);
