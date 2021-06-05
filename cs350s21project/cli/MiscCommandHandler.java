@@ -84,19 +84,19 @@ public class MiscCommandHandler {
     	//latitude
     	String editable = parts[4];
     	int degrees = Integer.parseInt(editable.substring(0,editable.indexOf('*')));
-    	editable.substring(editable.indexOf('*')+1);
+    	editable = editable.substring(editable.indexOf('*')+1);
     	int minutes = Integer.parseInt(editable.substring(0,editable.indexOf('\'')));
-    	editable.substring(editable.indexOf('\'')+1);
+    	editable = editable.substring(editable.indexOf('\'')+1);
     	double seconds = Double.parseDouble(editable.substring(0,editable.indexOf('"')));
-    	editable.substring(editable.indexOf('"')+1);
+    	editable = editable.substring(editable.indexOf('"')+2);
     	Latitude lat = new Latitude(degrees, minutes, seconds);
     	//longitude
     	degrees = Integer.parseInt(editable.substring(0,editable.indexOf('*')));
-    	editable.substring(editable.indexOf('*')+1);
+    	editable = editable.substring(editable.indexOf('*')+1);
     	minutes = Integer.parseInt(editable.substring(0,editable.indexOf('\'')));
-    	editable.substring(editable.indexOf('\'')+1);
+    	editable = editable.substring(editable.indexOf('\'')+1);
     	seconds = Double.parseDouble(editable.substring(0,editable.indexOf('"')));
-    	editable.substring(editable.indexOf('"')+1);
+    	editable = editable.substring(editable.indexOf('"')+2);
     	Longitude lon = new Longitude(degrees, minutes, seconds);
     	//altitude
     	double a = Double.parseDouble(editable);
