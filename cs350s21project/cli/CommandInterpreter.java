@@ -7,12 +7,18 @@ package cs350s21project.cli;
 
 public class CommandInterpreter {
 	public void evaluate(String command) {
-		if(command.isEmpty()) {
-			System.out.println("Command is missing");
+		if(command.isEmpty()) 
+			throw new Exception("Error: Command is empty; " + command);
+		
+		command = command.trim();
+		
+		if(command.contains("//")) {
+			String commandBeforeComment = subString(0, command.indexOf("//"));
 		}
-		String[] commandArray = command.split(";"); // Commands may appear on the same line if they are separated by a semicolon.
+		
+		String[] commandArray = command2.split(";");
 		for(String i : commandArray) {
-			String[] commStr = i.split(" +"); // Whitespace, except in literals, does not matter.
+			String[] commStr = i.split(" +");
 			if (commStr[0].equalsIgnoreCase("set")) {
 				new SetCommandHandler().handleSetCommand(command, commStr);
 			} else if (commStr[0].equalsIgnoreCase("create")) {
@@ -21,11 +27,8 @@ public class CommandInterpreter {
 				new DeleteCommandHandler().handleDeleteCommand(command, commStr);
 			} else if (commStr[0].equalsIgnoreCase("define")) {
 				new DefineCommandHandler().handleDefineCommand(command, commStr);
-			} else if (commStr[0].equalsIgnoreCase("@load") || commStr[0].equalsIgnoreCase("@pause") || commStr[0].equalsIgnoreCase("@resume") || commStr[0].equalsIgnoreCase("@set")
-													 || commStr[0].equalsIgnoreCase("@wait") || commStr[0].equalsIgnoreCase("@force") || commStr[0].equalsIgnoreCase("@exit")) {
+			} else if(commStr[0].charAt(0) == '@') {
 				new MiscCommandHandler().handleMiscCommand(command, commStr);
-			} else if(commStr[0].equals("//")) { // A comment prefixed with // may follow a command or be on its own line.
-				System.out.println("\n" + commStr[0] + "\n");
 			}
 		}
 	}
