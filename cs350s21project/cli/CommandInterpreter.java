@@ -14,21 +14,23 @@ public class CommandInterpreter {
 
 		if(command.contains("//")) {
 			command = command.substring(0, command.indexOf("//"));
+			if (command.isEmpty()) return;
 		}
-		
 		String[] commandArray = command.split(";");
-		for(String i : commandArray) {
-			String[] commStr = i.split(" +");
+		for(String singleCommand : commandArray) {
+			singleCommand = singleCommand.trim();
+
+			String[] commStr = singleCommand.split(" +");
 			if (commStr[0].equalsIgnoreCase("set")) {
-				new SetCommandHandler().handleSetCommand(command, commStr);
+				new SetCommandHandler().handleSetCommand(singleCommand, commStr);
 			} else if (commStr[0].equalsIgnoreCase("create")) {
-				new CreateCommandHandler().handleCreateCommand(command, commStr);
+				new CreateCommandHandler().handleCreateCommand(singleCommand, commStr);
 			} else if (commStr[0].equalsIgnoreCase("delete")) {
-				new DeleteCommandHandler().handleDeleteCommand(command, commStr);
+				new DeleteCommandHandler().handleDeleteCommand(singleCommand, commStr);
 			} else if (commStr[0].equalsIgnoreCase("define")) {
-				new DefineCommandHandler().handleDefineCommand(command, commStr);
+				new DefineCommandHandler().handleDefineCommand(singleCommand, commStr);
 			} else if(commStr[0].charAt(0) == '@') {
-				new MiscCommandHandler().handleMiscCommand(command, commStr);
+				new MiscCommandHandler().handleMiscCommand(singleCommand, commStr);
 			}
 		}
 	}
