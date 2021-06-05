@@ -7,16 +7,16 @@ package cs350s21project.cli;
 
 public class CommandInterpreter {
 	public void evaluate(String command) {
-		if(command.isEmpty()) 
-			throw new Exception("Error: Command is empty; " + command);
+		if(command.isEmpty())
+			throw new RuntimeException("Error: Command is empty; " + command);
 		
 		command = command.trim();
-		
+
 		if(command.contains("//")) {
-			String commandBeforeComment = subString(0, command.indexOf("//"));
+			command = command.substring(0, command.indexOf("//"));
 		}
 		
-		String[] commandArray = command2.split(";");
+		String[] commandArray = command.split(";");
 		for(String i : commandArray) {
 			String[] commStr = i.split(" +");
 			if (commStr[0].equalsIgnoreCase("set")) {
