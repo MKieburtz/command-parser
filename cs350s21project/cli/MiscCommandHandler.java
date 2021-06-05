@@ -38,11 +38,13 @@ public class MiscCommandHandler {
     }
 
     private void pause(String command) {
+		Verifier.verifyCommandHasNumArguments(command, 1);
         CommandMiscPause pauseCommand = new CommandMiscPause(CommandManagers.getInstance(), command);
         CommandManagers.getInstance().schedule(pauseCommand);
     }
 
     private void wait(String command, String[] parts) {
+    	Verifier.verifyCommandHasNumArguments(command, 2);
         String timeString = parts[1];
         Verifier.verifyTime(timeString);
         Time time = new Time(Double.parseDouble(timeString));
@@ -84,19 +86,19 @@ public class MiscCommandHandler {
     	//latitude
     	String editable = parts[4];
     	int degrees = Integer.parseInt(editable.substring(0,editable.indexOf('*')));
-    	editable.substring(editable.indexOf('*')+1);
+    	editable = editable.substring(editable.indexOf('*')+1);
     	int minutes = Integer.parseInt(editable.substring(0,editable.indexOf('\'')));
-    	editable.substring(editable.indexOf('\'')+1);
+    	editable = editable.substring(editable.indexOf('\'')+1);
     	double seconds = Double.parseDouble(editable.substring(0,editable.indexOf('"')));
-    	editable.substring(editable.indexOf('"')+1);
+    	editable = editable.substring(editable.indexOf('"')+2);
     	Latitude lat = new Latitude(degrees, minutes, seconds);
     	//longitude
     	degrees = Integer.parseInt(editable.substring(0,editable.indexOf('*')));
-    	editable.substring(editable.indexOf('*')+1);
+    	editable = editable.substring(editable.indexOf('*')+1);
     	minutes = Integer.parseInt(editable.substring(0,editable.indexOf('\'')));
-    	editable.substring(editable.indexOf('\'')+1);
+    	editable = editable.substring(editable.indexOf('\'')+1);
     	seconds = Double.parseDouble(editable.substring(0,editable.indexOf('"')));
-    	editable.substring(editable.indexOf('"')+1);
+    	editable = editable.substring(editable.indexOf('"')+2);
     	Longitude lon = new Longitude(degrees, minutes, seconds);
     	//altitude
     	double a = Double.parseDouble(editable);

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class DefineCommandHandler {
     public void handleDefineCommand(String command, String[] parts) {
         if (parts[1].equalsIgnoreCase("ship")) {
-            Verifier.verifyCommandHasAtLeastNumArguments(command, 6);
             defineShip(command, parts);
         } else if (parts[1].equalsIgnoreCase("munition")) {
             handleDefineMunitionCommand(command, parts);
@@ -41,7 +40,31 @@ public class DefineCommandHandler {
         }
     }
 
+    private void handleDefineSensorCommand(String command, String[] parts) {
+        Verifier.verifyCommandHasAtLeastNumArguments(command, 3);
+        if (parts[2].equalsIgnoreCase("radar")) {
+            defineRadarSensor(command, parts);
+        } else if (parts[2].equalsIgnoreCase("thermal")) {
+            defineThermalSensor(command, parts);
+        } else if (parts[2].equalsIgnoreCase("acoustic")) {
+            defineAcousticSensor(command, parts);
+        } else if (parts[2].equalsIgnoreCase("sonar")) {
+			if (parts[3].equalsIgnoreCase("active")) {
+				defineActiveSonarSensor(command, parts);
+			} else if(parts[3].equalsIgnoreCase("passive")) {
+				definePassiveSonarSensor(command, parts);
+			}
+        } else if (parts[2].equalsIgnoreCase("depth")) {
+            defineDepthSensor(command, parts);
+        } else if (parts[2].equalsIgnoreCase("distance")) {
+            defineDistanceSensor(command, parts);
+        } else if (parts[2].equalsIgnoreCase("time")) {
+            defineTimeSensor(command, parts);
+        }
+    }
+
     private void defineTorpedo(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 12);
         String torpedoID = parts[3];
         Verifier.verifyID(torpedoID);
         AgentID agentIDTorpedo = new AgentID(torpedoID);
@@ -64,31 +87,8 @@ public class DefineCommandHandler {
         CommandManagers.getInstance().schedule(defineTorpedoCommand);
     }
 
-    private void handleDefineSensorCommand(String command, String[] parts) {
-        Verifier.verifyCommandHasAtLeastNumArguments(command, 3);
-        if (parts[2].equalsIgnoreCase("radar")) {
-            defineRadarSensor(command, parts);
-        } else if (parts[2].equalsIgnoreCase("thermal")) {
-            defineThermalSensor(command, parts);
-        } else if (parts[2].equalsIgnoreCase("acoustic")) {
-            defineAcousticSensor(command, parts);
-        } else if (parts[2].equalsIgnoreCase("sonar")) {
-            Verifier.verifyCommandHasAtLeastNumArguments(command, 4);
-			if(parts[3].equalsIgnoreCase("active")) {
-				defineActiveSonarSensor(command, parts);
-			} else if(parts[3].equalsIgnoreCase("passive")) {
-				definePassiveSonarSensor(command, parts);
-			}
-        } else if (parts[2].equalsIgnoreCase("depth")) {
-            defineDepthSensor(command, parts);
-        } else if (parts[2].equalsIgnoreCase("distance")) {
-            defineDistanceSensor(command, parts);
-        } else if (parts[2].equalsIgnoreCase("time")) {
-            defineTimeSensor(command, parts);
-        }
-    }
-
     private void defineRadarSensor(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 13);
         String radarID = parts[3];
         Verifier.verifyID(radarID);
         AgentID agentIDRadar = new AgentID(radarID);
@@ -113,6 +113,7 @@ public class DefineCommandHandler {
     }
 
     private void defineThermalSensor(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 11);
         String thermalID = parts[3];
         Verifier.verifyID(thermalID);
         AgentID agentIDThermal = new AgentID(thermalID);
@@ -133,6 +134,7 @@ public class DefineCommandHandler {
     }
 
     private void defineAcousticSensor(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 7);
         String acousticID = parts[3];
         Verifier.verifyID(acousticID);
         AgentID agentIDAcoustic = new AgentID(acousticID);
@@ -148,6 +150,7 @@ public class DefineCommandHandler {
     }
 
     private void defineShip(String command, String[] parts) {
+        Verifier.verifyCommandHasAtLeastNumArguments(command, 6);
         String id = parts[2];
         Verifier.verifyID(id);
         AgentID agentID = new AgentID(id);
@@ -192,7 +195,7 @@ public class DefineCommandHandler {
 		Verifier.verifyID(parts[4]);
 		AgentID id = new AgentID(parts[4]);
 		//"with power"
-		if(!parts[5].equalsIgnoreCase("with") || !parts[5].equalsIgnoreCase("power")) {
+		if (!(parts[5].equalsIgnoreCase("with") & parts[6].equalsIgnoreCase("power"))) {
 			throw new RuntimeException("Error! Syntax error on define active sonar sensor command (missing or incorrect \"with power\")");
 		}
 		//power
@@ -219,32 +222,21 @@ public class DefineCommandHandler {
 		Verifier.verifyID(parts[4]);
 		AgentID id = new AgentID(parts[4]);
 		//"with sensitivity"
-		if(!parts[5].equalsIgnoreCase("with") || !parts[5].equalsIgnoreCase("sensitivity")) {
+		if (!(parts[5].equalsIgnoreCase("with") && parts[6].equalsIgnoreCase("sensitivity"))) {
 			throw new RuntimeException("Error! Syntax error on define passive sonar sensor command (missing or incorrect \"with sensitivity\")");
 		}
 		//sensitivity
 		Verifier.verifySensitivity(parts[7]);
 		double d = Double.parseDouble(parts[7]);
 		Sensitivity sens = new Sensitivity(d);
-		
+
 		//create command
 		CommandSensorDefineSonarPassive sensor = new CommandSensorDefineSonarPassive(CommandManagers.getInstance(), command, id, sens);
 		CommandManagers.getInstance().schedule(sensor);
 	}
 
-    public void handleDefineCommand(String command) {
-        String[] parts = command.split(" +");
-
-        if (parts[1].equalsIgnoreCase("ship")) {
-            defineShip(command, parts);
-        } else if (parts[1].equalsIgnoreCase("munition")) {
-            handleDefineMunitionCommand(command, parts);
-        } else if (parts[1].equalsIgnoreCase("sensor")) {
-            handleDefineSensorCommand(command, parts);
-        }
-    }
-
     public void defineDepthCharge(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 7);
         String idDC = parts[3]; // id1
         Verifier.verifyID(idDC);
         AgentID idMunition = new AgentID(idDC);
@@ -260,6 +252,7 @@ public class DefineCommandHandler {
 
 
     public void defineMissile(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 12);
         String idMunition = parts[3]; // id1
         Verifier.verifyID(idMunition);
         AgentID id1 = new AgentID(idMunition);
@@ -282,6 +275,7 @@ public class DefineCommandHandler {
     }
 
     public void defineDepthSensor(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 8);
         String id1 = parts[3];
         Verifier.verifyID(id1);
         AgentID idSensor = new AgentID(id1);
@@ -290,13 +284,14 @@ public class DefineCommandHandler {
         Verifier.verifyAltitude(altitudeString);
         Altitude altitude = new Altitude(Double.parseDouble(altitudeString));
 
-        //CommandSensorDefineDepth​(CommandManagers managers, java.lang.String text, AgentID idSensor, Altitude depth)
+        //CommandSensorDefineDepth(CommandManagers managers, java.lang.String text, AgentID idSensor, Altitude depth)
         CommandSensorDefineDepth defineDeptheCommand = new CommandSensorDefineDepth(CommandManagers.getInstance(), command, idSensor, altitude);
         CommandManagers.getInstance().schedule(defineDeptheCommand);
     }
 
 
     public void defineDistanceSensor(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 8);
         String id1 = parts[3];
         Verifier.verifyID(id1);
         AgentID idSensor = new AgentID(id1);
@@ -311,6 +306,7 @@ public class DefineCommandHandler {
     }
 
     public void defineTimeSensor(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 8);
         String idSensorString = parts[3];
         Verifier.verifyID(idSensorString);
         AgentID idSensor = new AgentID(idSensorString);

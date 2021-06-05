@@ -19,15 +19,19 @@ public class SetCommandHandler {
 		} else if(parts[2].equalsIgnoreCase("altitude") || parts[2].equalsIgnoreCase("depth")) {
             setAltitudeDepth(command, parts);
         } else if(parts[2].equalsIgnoreCase("deploy") && parts[3].equalsIgnoreCase("munition")) {
-            setDeployMunition(command, parts);
-        } else if(parts[6].equalsIgnoreCase("azimuth")) {
-            setDeployMunitionShell(command, parts);
+		    if (parts.length > 6 && parts[6].equalsIgnoreCase("azimuth")) {
+                // it's the more detailed one for deploying a shell
+		        setDeployMunitionShell(command, parts);
+            } else {
+                setDeployMunition(command, parts);
+            }
         } else if(parts[1].equalsIgnoreCase("load")) {
             load(command, parts);
         }
     }
 
     private void load(String command, String[] parts) {
+        Verifier.verifyCommandHasNumArguments(command, 5);
         String id = parts[1];
         Verifier.verifyID(id);
         AgentID agentID = new AgentID(id);
@@ -88,15 +92,13 @@ public class SetCommandHandler {
             Verifier.verifyDepth(altDep);
             altitude = new Altitude(Double.parseDouble(altDep));
         }
-
-
         //CommandActorSetAltitudeDepth(CommandManagers managers, java.lang.String text, AgentID idActor, Altitude altitude)
         CommandActorSetAltitudeDepth setAltitudeDepthCommand = new CommandActorSetAltitudeDepth(CommandManagers.getInstance(), command, id1, altitude);
         CommandManagers.getInstance().schedule(setAltitudeDepthCommand);
     }
 
     public void setDeployMunition(String command, String[] parts) {
-        Verifier.verifyCommandHasNumArguments(command, 4);
+        Verifier.verifyCommandHasNumArguments(command, 5);
         String idActor = parts[1]; // id1
         Verifier.verifyID(idActor);
         AgentID id1 = new AgentID(idActor);
@@ -111,7 +113,7 @@ public class SetCommandHandler {
     }
 
     public void setDeployMunitionShell(String command, String[] parts) {
-        Verifier.verifyCommandHasNumArguments(command, 9);
+        Verifier.verifyCommandHasNumArguments(command, 10);
         String idActor = parts[1]; // id1
         Verifier.verifyID(idActor);
         AgentID id1 = new AgentID(idActor);
