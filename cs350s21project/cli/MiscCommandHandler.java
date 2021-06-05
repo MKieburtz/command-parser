@@ -38,11 +38,13 @@ public class MiscCommandHandler {
     }
 
     private void pause(String command) {
+		Verifier.verifyCommandHasNumArguments(command, 1);
         CommandMiscPause pauseCommand = new CommandMiscPause(CommandManagers.getInstance(), command);
         CommandManagers.getInstance().schedule(pauseCommand);
     }
 
     private void wait(String command, String[] parts) {
+    	Verifier.verifyCommandHasNumArguments(command, 2);
         String timeString = parts[1];
         Verifier.verifyTime(timeString);
         Time time = new Time(Double.parseDouble(timeString));
